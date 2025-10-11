@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import { Document, Types } from 'mongoose';
 
 // Интерфейсы
 export interface ISchedule {
@@ -29,7 +28,8 @@ export interface IFilm extends Document {
 // Схема Schedule
 @Schema({ _id: false })
 export class Schedule {
-  @Prop({ default: () => uuidv4() })
+  // @Prop({ default: () => uuidv4() })
+  @Prop({ default: () => new Types.ObjectId().toString() })
   id: string;
 
   @Prop({ required: true })
@@ -56,7 +56,8 @@ export const ScheduleSchema = SchemaFactory.createForClass(Schedule);
 // Схема Film
 @Schema({ collection: 'films' })
 export class Film extends Document {
-  @Prop({ default: () => uuidv4() })
+  // @Prop({ default: () => uuidv4() })
+  @Prop({ default: () => new Types.ObjectId().toString() })
   id: string;
 
   @Prop({ required: true })
