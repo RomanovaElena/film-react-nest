@@ -7,21 +7,28 @@ import { Schedule } from './schemas/films.schema';
 export class FilmsService {
   constructor(private readonly filmRepo: FilmRepository) {}
 
-async getAllFilms(): Promise<{ total: number; items: GetFilmDto[] }> {
-  const films = await this.filmRepo.findAll();
-  return {
-    total: films.length,
-    items: films.map((f) => this.entityToDto(f)),
-  };
-}
+  async getAllFilms(): Promise<{ total: number; items: GetFilmDto[] }> {
+    const films = await this.filmRepo.findAll();
+    return {
+      total: films.length,
+      items: films.map((f) => this.entityToDto(f)),
+    };
+  }
 
-  async getFilmSchedule(filmId: string): Promise<GetScheduleDto[]> {
+  async getFilmSchedule(
+    filmId: string,
+  ): Promise<{ total: number; items: GetScheduleDto[] }> {
     const film = await this.filmRepo.findById(filmId);
-    // console.log('Film found in DB:', film);
     if (!film) {
       throw new NotFoundException(`Film with id ${filmId} not found`);
     }
-    return film.schedule.map((s) => this.scheduleEntityToDto(s));
+
+    const schedule = film.schedule.map((s) => this.scheduleEntityToDto(s));
+
+    return {
+      total: schedule.length,
+      items: schedule,
+    };
   }
 
   private entityToDto(film: any): GetFilmDto {

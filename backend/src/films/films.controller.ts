@@ -17,11 +17,10 @@ export class FilmsController {
     @Param('id') id: string,
   ): Promise<{ items: GetScheduleDto[] }> {
     const schedule = await this.filmsService.getFilmSchedule(id);
-    return { items: schedule };
+    return schedule;
   }
   // @Get(':id/schedule')
   // async getSchedule(@Param('id') id: string): Promise<GetScheduleDto[]> {
   //   return this.filmsService.getFilmSchedule(id);
   // }
 }
-

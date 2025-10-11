@@ -62,8 +62,8 @@ export class OrderService {
       });
     }
 
-    const total = items.reduce((sum, t) => sum + t.price, 0);
+    const total = items.length;
 
-    return { items, total };
+    return { total, items };
   }
 }
