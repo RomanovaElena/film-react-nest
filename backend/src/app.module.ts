@@ -9,17 +9,15 @@ import { OrderModule } from './order/order.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppConfigModule } from './app.config.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
     }),
-    // @todo: Добавьте раздачу статических файлов из public
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
-      serveRoot: '/', 
+      serveRoot: '/',
     }),
 
     AppConfigModule,

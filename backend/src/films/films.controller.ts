@@ -19,8 +19,4 @@ export class FilmsController {
     const schedule = await this.filmsService.getFilmSchedule(id);
     return schedule;
   }
-  // @Get(':id/schedule')
-  // async getSchedule(@Param('id') id: string): Promise<GetScheduleDto[]> {
-  //   return this.filmsService.getFilmSchedule(id);
-  // }
 }

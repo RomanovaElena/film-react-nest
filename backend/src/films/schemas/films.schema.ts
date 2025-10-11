@@ -4,7 +4,7 @@ import { Document, Types } from 'mongoose';
 // Интерфейсы
 export interface ISchedule {
   id: string;
-  daytime: Date; 
+  daytime: Date;
   hall: number;
   rows: number;
   seats: number;
@@ -28,7 +28,6 @@ export interface IFilm extends Document {
 // Схема Schedule
 @Schema({ _id: false })
 export class Schedule {
-  // @Prop({ default: () => uuidv4() })
   @Prop({ default: () => new Types.ObjectId().toString() })
   id: string;
 
@@ -56,7 +55,6 @@ export const ScheduleSchema = SchemaFactory.createForClass(Schedule);
 // Схема Film
 @Schema({ collection: 'films' })
 export class Film extends Document {
-  // @Prop({ default: () => uuidv4() })
   @Prop({ default: () => new Types.ObjectId().toString() })
   id: string;
 
