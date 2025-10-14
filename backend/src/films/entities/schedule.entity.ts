@@ -1,14 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, PrimaryColumn, BeforeInsert } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { FilmEntity } from './film.entity';
-import { generateId } from 'src/utils/utils';
 
 @Entity('schedules')
 export class ScheduleEntity {
-  // @PrimaryGeneratedColumn('uuid')
-  // id: string;
-
-  @PrimaryColumn()
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: string = Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
 
   @Column({ type: 'timestamp', nullable: false })
   daytime: Date;
@@ -30,10 +26,4 @@ export class ScheduleEntity {
 
   @ManyToOne(() => FilmEntity, (film) => film.schedule, { onDelete: 'CASCADE' })
   film: FilmEntity;
-
-  
-  @BeforeInsert()
-  generateId() {
-    if (!this.id) this.id = generateId();
-  }
 }

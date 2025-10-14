@@ -1,14 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, PrimaryColumn, BeforeInsert } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { ScheduleEntity } from './schedule.entity';
-import { generateId } from 'src/utils/utils';
 
 @Entity('films')
 export class FilmEntity {
-  // @PrimaryGeneratedColumn('uuid')
-  // id: string;
-
-  @PrimaryColumn()
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: string = Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
 
   @Column({ type: 'double precision' })
   rating: number;
@@ -38,10 +34,4 @@ export class FilmEntity {
     cascade: true,
   })
   schedule: ScheduleEntity[];
-
-  
-  @BeforeInsert()
-  generateId() {
-    if (!this.id) this.id = generateId();
-  }
 }
