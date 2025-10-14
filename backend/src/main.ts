@@ -1,13 +1,15 @@
-if (!globalThis.crypto) {
-  globalThis.crypto = require('crypto');
-}
-if (!globalThis.crypto.randomUUID) {
-  globalThis.crypto.randomUUID = () => require('crypto').randomUUID();
-}
-
+import * as nodeCrypto from 'crypto'; // Node.js crypto
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import 'dotenv/config';
+
+if (!globalThis.crypto) {
+  (globalThis as any).crypto = nodeCrypto;
+}
+
+if (!(globalThis as any).crypto.randomUUID) {
+  (globalThis as any).crypto.randomUUID = () => nodeCrypto.randomUUID();
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
