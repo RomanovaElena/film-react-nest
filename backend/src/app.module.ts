@@ -3,11 +3,13 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'node:path';
 
-import { configProvider } from './app.config.provider';
+import { AppConfig, configProvider } from './app.config.provider';
 import { FilmsModule } from './films/films.module';
 import { OrderModule } from './order/order.module';
-import { MongooseModule } from '@nestjs/mongoose';
 import { AppConfigModule } from './app.config.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { FilmEntity } from './films/entities/film.entity';
+import { ScheduleEntity } from './films/entities/schedule.entity';
 
 @Module({
   imports: [
@@ -22,11 +24,26 @@ import { AppConfigModule } from './app.config.module';
 
     AppConfigModule,
 
-    MongooseModule.forRootAsync({
+    // MongooseModule.forRootAsync({
+    //   imports: [AppConfigModule],
+    //   inject: ['CONFIG'],
+    //   useFactory: (config: any) => ({
+    //     uri: config.database.url,
+    //   }),
+    // }),
+
+    TypeOrmModule.forRootAsync({
       imports: [AppConfigModule],
       inject: ['CONFIG'],
-      useFactory: (config: any) => ({
-        uri: config.database.url,
+      useFactory: (config: AppConfig) => ({
+        type: 'postgres',
+        host: config.database.host,
+        port: config.database.port,
+        username: config.database.username,
+        password: config.database.password,
+        database: config.database.name,
+        entities: [FilmEntity, ScheduleEntity],
+        synchronize: false, //!!!!!!!!!!!
       }),
     }),
 
