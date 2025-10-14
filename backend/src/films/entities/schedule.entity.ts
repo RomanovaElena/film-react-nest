@@ -1,9 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, PrimaryColumn, BeforeInsert } from 'typeorm';
 import { FilmEntity } from './film.entity';
+import { generateId } from 'src/utils/utils';
 
 @Entity('schedules')
 export class ScheduleEntity {
-  @PrimaryGeneratedColumn('uuid')
+  // @PrimaryGeneratedColumn('uuid')
+  // id: string;
+
+  @PrimaryColumn()
   id: string;
 
   @Column({ type: 'timestamp', nullable: false })
@@ -26,4 +30,10 @@ export class ScheduleEntity {
 
   @ManyToOne(() => FilmEntity, (film) => film.schedule, { onDelete: 'CASCADE' })
   film: FilmEntity;
+
+  
+  @BeforeInsert()
+  generateId() {
+    if (!this.id) this.id = generateId();
+  }
 }

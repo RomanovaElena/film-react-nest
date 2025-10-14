@@ -1,6 +1,10 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { FilmRepository } from '../repository/film.repository';
-import { CreateOrderDto, OrderResponseDto, OrderTicketDto } from './dto/order.dto';
+import {
+  CreateOrderDto,
+  OrderResponseDto,
+  OrderTicketDto,
+} from './dto/order.dto';
 import { Schedule } from '../films/schemas/films.schema';
 
 @Injectable()
@@ -20,7 +24,9 @@ export class OrderService {
       // Найти сеанс
       const session = film.schedule.find((s) => s.id === ticket.session);
       if (!session) {
-        throw new BadRequestException(`Session with id ${ticket.session} not found`);
+        throw new BadRequestException(
+          `Session with id ${ticket.session} not found`,
+        );
       }
 
       const place = `${ticket.row}:${ticket.seat}`;
@@ -58,7 +64,7 @@ export class OrderService {
       // Сформировать DTO для ответа
       items.push({
         ...ticket,
-        id: `${ticket.film}-${ticket.session}-${ticket.row}-${ticket.seat}`, 
+        id: `${ticket.film}-${ticket.session}-${ticket.row}-${ticket.seat}`,
       });
     }
 

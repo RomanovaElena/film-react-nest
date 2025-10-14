@@ -47,5 +47,3 @@ export interface AppConfigDatabase {
 //   driver: string;
 //   url: string;
 // }
-
-

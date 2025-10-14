@@ -1,9 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, PrimaryColumn, BeforeInsert } from 'typeorm';
 import { ScheduleEntity } from './schedule.entity';
+import { generateId } from 'src/utils/utils';
 
 @Entity('films')
 export class FilmEntity {
-  @PrimaryGeneratedColumn('uuid')
+  // @PrimaryGeneratedColumn('uuid')
+  // id: string;
+
+  @PrimaryColumn()
   id: string;
 
   @Column({ type: 'double precision' })
@@ -30,6 +34,14 @@ export class FilmEntity {
   @Column()
   description: string;
 
-  @OneToMany(() => ScheduleEntity, (schedule) => schedule.film, { cascade: true })
+  @OneToMany(() => ScheduleEntity, (schedule) => schedule.film, {
+    cascade: true,
+  })
   schedule: ScheduleEntity[];
+
+  
+  @BeforeInsert()
+  generateId() {
+    if (!this.id) this.id = generateId();
+  }
 }

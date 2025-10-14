@@ -25,7 +25,10 @@ export class FilmRepository {
 
     if (existing) {
       await this.filmRepo.save({ ...existing, ...entity });
-      return this.filmRepo.findOne({ where: { id: dto.id }, relations: ['schedule'] });
+      return this.filmRepo.findOne({
+        where: { id: dto.id },
+        relations: ['schedule'],
+      });
     }
 
     return this.filmRepo.save(entity);
@@ -62,7 +65,10 @@ export class FilmRepository {
     return film;
   }
 
-  private scheduleDtoToEntity(dto: GetScheduleDto, film: FilmEntity): ScheduleEntity {
+  private scheduleDtoToEntity(
+    dto: GetScheduleDto,
+    film: FilmEntity,
+  ): ScheduleEntity {
     const schedule = new ScheduleEntity();
     schedule.id = dto.id;
     schedule.daytime = new Date(dto.daytime);
@@ -75,7 +81,6 @@ export class FilmRepository {
     return schedule;
   }
 }
-
 
 // import { Injectable } from '@nestjs/common';
 // import { InjectModel } from '@nestjs/mongoose';
