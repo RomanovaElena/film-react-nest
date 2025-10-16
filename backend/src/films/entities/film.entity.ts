@@ -3,8 +3,8 @@ import { ScheduleEntity } from './schedule.entity';
 
 @Entity('films')
 export class FilmEntity {
-  @PrimaryGeneratedColumn()
-  id: string = Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'double precision' })
   rating: number;

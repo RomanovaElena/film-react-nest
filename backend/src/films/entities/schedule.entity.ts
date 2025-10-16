@@ -3,8 +3,8 @@ import { FilmEntity } from './film.entity';
 
 @Entity('schedules')
 export class ScheduleEntity {
-  @PrimaryGeneratedColumn()
-  id: string = Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'timestamp', nullable: false })
   daytime: Date;
