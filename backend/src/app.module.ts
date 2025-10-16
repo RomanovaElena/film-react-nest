@@ -42,7 +42,7 @@ import { ScheduleEntity } from './films/entities/schedule.entity';
         password: config.database.password,
         database: config.database.name,
         entities: [FilmEntity, ScheduleEntity],
-        synchronize: false, //!!!!!!!!!!!
+        synchronize: true, 
       }),
     }),
 
