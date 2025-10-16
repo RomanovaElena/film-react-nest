@@ -35,7 +35,7 @@ import { ScheduleEntity } from './films/entities/schedule.entity';
       imports: [AppConfigModule],
       inject: ['CONFIG'],
       useFactory: (config: AppConfig) => ({
-        type: 'postgres',
+        type: (config.database.driver) as any,
         host: config.database.host,
         port: config.database.port,
         username: config.database.username,

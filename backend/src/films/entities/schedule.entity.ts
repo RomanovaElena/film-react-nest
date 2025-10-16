@@ -6,8 +6,8 @@ export class ScheduleEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'timestamp', nullable: false })
-  daytime: Date;
+  @Column({ type: 'timestamp', nullable: true })
+  daytime: Date | null;
 
   @Column({ type: 'int' })
   hall: number;
@@ -21,8 +21,8 @@ export class ScheduleEntity {
   @Column({ type: 'double precision' })
   price: number;
 
-  @Column('text', { array: true })
-  taken: string[];
+  @Column('text', { array: true, nullable: true, default: '{}' })
+  taken: string[] | null;
 
   @ManyToOne(() => FilmEntity, (film) => film.schedule, { onDelete: 'CASCADE' })
   film: FilmEntity;

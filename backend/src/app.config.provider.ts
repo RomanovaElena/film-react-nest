@@ -5,6 +5,7 @@ export const configProvider = {
   provide: 'CONFIG',
   useValue: <AppConfig>{
     database: {
+      driver: process.env.DATABASE_DRIVER || 'postgres',
       host: process.env.DATABASE_HOST || 'localhost',
       port: Number(process.env.DATABASE_PORT) || 5432,
       username: process.env.DATABASE_USERNAME || 'prac',
@@ -19,6 +20,7 @@ export interface AppConfig {
 }
 
 export interface AppConfigDatabase {
+  driver: string;
   host: string;
   port: number;
   username: string;
