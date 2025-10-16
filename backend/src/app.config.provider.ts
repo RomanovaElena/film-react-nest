@@ -27,7 +27,6 @@ export interface AppConfigDatabase {
 }
 
 // import { ConfigModule } from '@nestjs/config';
-
 // export const configProvider = {
 //   imports: [ConfigModule.forRoot()],
 //   provide: 'CONFIG',
