@@ -23,13 +23,6 @@ import { ScheduleEntity } from './films/entities/schedule.entity';
     }),
 
     AppConfigModule,
-    // MongooseModule.forRootAsync({
-    //   imports: [AppConfigModule],
-    //   inject: ['CONFIG'],
-    //   useFactory: (config: any) => ({
-    //     uri: config.database.url,
-    //   }),
-    // }),
 
     TypeOrmModule.forRootAsync({
       imports: [AppConfigModule],
