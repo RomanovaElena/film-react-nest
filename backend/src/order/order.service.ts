@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { FilmRepository } from '../repository/film.repository';
 import {
   CreateOrderDto,
@@ -18,7 +22,7 @@ export class OrderService {
       // Получить фильм
       const film = await this.filmRepo.findById(ticket.film);
       if (!film) {
-        throw new BadRequestException(`Film with id ${ticket.film} not found`);
+        throw new NotFoundException(`Film with id ${ticket.film} not found`);
       }
 
       // Найти сеанс
@@ -26,7 +30,7 @@ export class OrderService {
         (s) => s.id.toString() === ticket.session.toString(),
       );
       if (!session) {
-        throw new BadRequestException(
+        throw new NotFoundException(
           `Session with id ${ticket.session} not found`,
         );
       }
