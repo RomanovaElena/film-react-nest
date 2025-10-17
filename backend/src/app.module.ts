@@ -18,8 +18,8 @@ import { ScheduleEntity } from './films/entities/schedule.entity';
       cache: true,
     }),
     ServeStaticModule.forRoot({
-      rootPath: path.join(__dirname, '..', 'public'),
-      serveRoot: '/',
+      rootPath: path.join(__dirname, '..', 'public/content/afisha'),
+      serveRoot: '/content/afisha',
     }),
 
     AppConfigModule,
