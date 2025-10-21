@@ -3,6 +3,6 @@ import { configProvider } from './app.config.provider';
 
 @Module({
   providers: [configProvider],
-  exports: [configProvider], 
+  exports: [configProvider],
 })
 export class AppConfigModule {}

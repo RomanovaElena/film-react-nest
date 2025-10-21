@@ -7,7 +7,9 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  async createOrder(@Body() orderData: CreateOrderDto): Promise<OrderResponseDto> {
+  async createOrder(
+    @Body() orderData: CreateOrderDto,
+  ): Promise<OrderResponseDto> {
     return this.orderService.createOrder(orderData);
   }
 }

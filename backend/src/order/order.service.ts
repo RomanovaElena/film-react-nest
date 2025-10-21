@@ -1,6 +1,14 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { FilmRepository } from '../repository/film.repository';
-import { CreateOrderDto, OrderResponseDto, OrderTicketDto } from './dto/order.dto';
+import {
+  CreateOrderDto,
+  OrderResponseDto,
+  OrderTicketDto,
+} from './dto/order.dto';
 import { Schedule } from '../films/schemas/films.schema';
 
 @Injectable()
@@ -14,43 +22,38 @@ export class OrderService {
       // Получить фильм
       const film = await this.filmRepo.findById(ticket.film);
       if (!film) {
-        throw new BadRequestException(`Film with id ${ticket.film} not found`);
+        throw new NotFoundException(`Film with id ${ticket.film} not found`);
       }
 
       // Найти сеанс
-      const session = film.schedule.find((s) => s.id === ticket.session);
+      const session = film.schedule.find(
+        (s) => s.id.toString() === ticket.session.toString(),
+      );
       if (!session) {
-        throw new BadRequestException(`Session with id ${ticket.session} not found`);
+        throw new NotFoundException(
+          `Session with id ${ticket.session} not found`,
+        );
       }
 
       const place = `${ticket.row}:${ticket.seat}`;
 
       // Проверить, доступно ли место
+      if (!session.taken) session.taken = [];
       if (session.taken.includes(place)) {
         throw new BadRequestException(`Seat ${place} is already booked`);
       }
 
       // Добавить место к занятым
+      if (!session.taken) {
+        session.taken = [];
+      }
       session.taken.push(place);
 
       // Сохранить изменения в фильме
       await this.filmRepo.save({
-        id: film.id,
-        rating: film.rating,
-        director: film.director,
-        tags: film.tags,
-        image: film.image,
-        cover: film.cover,
-        title: film.title,
-        about: film.about,
-        description: film.description,
+        ...film,
         schedule: film.schedule.map((s: Schedule) => ({
-          id: s.id,
-          daytime: s.daytime,
-          hall: s.hall,
-          rows: s.rows,
-          seats: s.seats,
-          price: s.price,
+          ...s,
           taken: s.taken,
         })),
       });
@@ -58,7 +61,7 @@ export class OrderService {
       // Сформировать DTO для ответа
       items.push({
         ...ticket,
-        id: `${ticket.film}-${ticket.session}-${ticket.row}-${ticket.seat}`, 
+        id: `${ticket.film}-${ticket.session}-${ticket.row}-${ticket.seat}`,
       });
     }
 

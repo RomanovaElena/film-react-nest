@@ -4,7 +4,7 @@ import { OrderService } from './order.service';
 import { OrderController } from './order.controller';
 
 @Module({
-  imports: [FilmsModule], 
+  imports: [FilmsModule],
   providers: [OrderService],
   controllers: [OrderController],
   exports: [OrderService],
