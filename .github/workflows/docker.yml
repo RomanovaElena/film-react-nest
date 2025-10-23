@@ -38,7 +38,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME | lower }}/backend:latest
+          tags: ${{ env.REGISTRY }}/romanovaelena/film-react-nest/backend:latest
 
       - name: Build and push Frontend Builder image
         uses: docker/build-push-action@v5
@@ -46,7 +46,7 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME | lower }}/frontend-builder:latest
+          tags: ${{ env.REGISTRY }}/romanovaelena/film-react-nest/frontend-builder:latest
 
       - name: Build and push Nginx image
         uses: docker/build-push-action@v5
@@ -54,4 +54,4 @@ jobs:
           context: ./nginx
           file: ./nginx/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME | lower }}/nginx:latest
+          tags: ${{ env.REGISTRY }}/romanovaelena/film-react-nest/nginx:latest
