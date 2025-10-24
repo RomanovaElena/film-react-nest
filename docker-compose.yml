@@ -63,9 +63,9 @@ services:
 
   # Frontend builder
   frontend_builder:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    # build:
+    #   context: ./frontend
+    #   dockerfile: Dockerfile
     image: ghcr.io/romanovaelena/film-react-nest/frontend-builder:latest
     container_name: prac_frontend_builder
     networks:
