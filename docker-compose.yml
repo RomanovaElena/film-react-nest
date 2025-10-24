@@ -36,7 +36,7 @@ services:
     networks:
       - app-net
 
-  # Backend (добавляем порт 3000)
+  # Backend
   backend:
     build:
       context: ./backend
@@ -63,9 +63,6 @@ services:
 
   # Frontend builder
   frontend_builder:
-    # build:
-    #   context: ./frontend
-    #   dockerfile: Dockerfile
     image: ghcr.io/romanovaelena/film-react-nest/frontend-builder:latest
     container_name: prac_frontend_builder
     networks:
@@ -98,3 +95,104 @@ volumes:
 networks:
   app-net:
     driver: bridge
+
+# version: "3.9"
+
+# services:
+#   # PostgreSQL
+#   db:
+#     image: postgres:15-alpine
+#     container_name: prac_db
+#     environment:
+#       POSTGRES_USER: prac
+#       POSTGRES_PASSWORD: prac123
+#       POSTGRES_DB: prac
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     networks:
+#       - app-net
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U prac -d prac"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+
+#   # pgAdmin
+#   pgadmin:
+#     image: dpage/pgadmin4
+#     container_name: prac_pgadmin
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: admin@example.com
+#       PGADMIN_DEFAULT_PASSWORD: admin
+#     ports:
+#       - "8080:80"
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#     volumes:
+#       - pgadmindata:/var/lib/pgadmin
+#     networks:
+#       - app-net
+
+#   # Backend (добавляем порт 3000)
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     image: ghcr.io/romanovaelena/film-react-nest/backend:latest
+#     container_name: prac_backend
+#     environment:
+#       DATABASE_HOST: db
+#       DATABASE_PORT: 5432
+#       DATABASE_USERNAME: prac
+#       DATABASE_PASSWORD: prac123
+#       DATABASE_NAME: prac
+#       DATABASE_DRIVER: postgres
+#       LOGGER: tskv
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - ./backend/public:/app/public:ro
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#     networks:
+#       - app-net
+
+#   # Frontend builder
+#   frontend_builder:
+#     # build:
+#     #   context: ./frontend
+#     #   dockerfile: Dockerfile
+#     image: ghcr.io/romanovaelena/film-react-nest/frontend-builder:latest
+#     container_name: prac_frontend_builder
+#     networks:
+#       - app-net
+#     volumes:
+#       - frontend_dist:/app/dist
+
+#   # Nginx
+#   nginx:
+#     build:
+#       context: ./nginx
+#       dockerfile: Dockerfile
+#     image: ghcr.io/romanovaelena/film-react-nest/nginx:latest
+#     container_name: prac_nginx
+#     depends_on:
+#       - frontend_builder
+#       - backend
+#     ports:
+#       - "80:80"
+#     volumes:
+#       - frontend_dist:/usr/share/nginx/html
+#     networks:
+#       - app-net
+
+# volumes:
+#   pgdata:
+#   pgadmindata:
+#   frontend_dist:
+
+# networks:
+#   app-net:
+#     driver: bridge
