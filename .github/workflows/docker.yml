@@ -1,7 +1,5 @@
 env:
   REGISTRY: ghcr.io
-  REPO_OWNER: ${{ lower(github.repository_owner) }}
-  REPO_NAME: ${{ lower(github.event.repository.name) }}
 
 name: Build and Push Docker Images
 on:
@@ -23,6 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Convert to lowercase
+        id: lower
+        run: |
+          echo "REPO_OWNER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "REPO_NAME=$(echo '${{ github.event.repository.name }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -40,8 +44,8 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}/backend:latest
-            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}/backend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ steps.lower.outputs.REPO_OWNER }}/${{ steps.lower.outputs.REPO_NAME }}/backend:latest
+            ${{ env.REGISTRY }}/${{ steps.lower.outputs.REPO_OWNER }}/${{ steps.lower.outputs.REPO_NAME }}/backend:${{ github.sha }}
 
       - name: Build and push Frontend Builder image
         uses: docker/build-push-action@v5
@@ -50,8 +54,8 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}/frontend-builder:latest
-            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}/frontend-builder:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ steps.lower.outputs.REPO_OWNER }}/${{ steps.lower.outputs.REPO_NAME }}/frontend-builder:latest
+            ${{ env.REGISTRY }}/${{ steps.lower.outputs.REPO_OWNER }}/${{ steps.lower.outputs.REPO_NAME }}/frontend-builder:${{ github.sha }}
 
       - name: Build and push Nginx image
         uses: docker/build-push-action@v5
@@ -60,9 +64,8 @@ jobs:
           file: ./nginx/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}/nginx:latest
-            ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}/nginx:${{ github.sha }}
-
+            ${{ env.REGISTRY }}/${{ steps.lower.outputs.REPO_OWNER }}/${{ steps.lower.outputs.REPO_NAME }}/nginx:latest
+            ${{ env.REGISTRY }}/${{ steps.lower.outputs.REPO_OWNER }}/${{ steps.lower.outputs.REPO_NAME }}/nginx:${{ github.sha }}
 # env:
 #   REGISTRY: ghcr.io
 #   IMAGE_NAME: ${{ github.repository }}
