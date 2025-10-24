@@ -1,5 +1,7 @@
 # FILM!
 
+Ссылка на приложение: http://film.pr18.nomorepartiessbs.ru/
+
 ## Установка
 
 ### MongoDB
