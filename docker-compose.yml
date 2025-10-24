@@ -41,7 +41,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: ghcr.io/romanovaelena/film-react-nest-backend:latest
+    image: ghcr.io/romanovaelena/film-react-nest/backend:latest
     container_name: prac_backend
     environment:
       DATABASE_HOST: db
@@ -66,7 +66,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: ghcr.io/romanovaelena/film-react-nest-frontend-builder:latest
+    image: ghcr.io/romanovaelena/film-react-nest/frontend-builder:latest
     container_name: prac_frontend_builder
     networks:
       - app-net
@@ -78,7 +78,7 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: ghcr.io/romanovaelena/film-react-nest-nginx:latest
+    image: ghcr.io/romanovaelena/film-react-nest/nginx:latest
     container_name: prac_nginx
     depends_on:
       - frontend_builder
