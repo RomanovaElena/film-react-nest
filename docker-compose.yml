@@ -61,15 +61,6 @@ services:
     networks:
       - app-net
 
-  # Frontend builder
-  frontend_builder:
-    image: ghcr.io/romanovaelena/film-react-nest/frontend-builder:latest
-    container_name: prac_frontend_builder
-    networks:
-      - app-net
-    volumes:
-      - frontend_dist:/app/dist
-
   # Nginx
   nginx:
     build:
@@ -78,7 +69,6 @@ services:
     image: ghcr.io/romanovaelena/film-react-nest/nginx:latest
     container_name: prac_nginx
     depends_on:
-      - frontend_builder
       - backend
     ports:
       - "80:80"
